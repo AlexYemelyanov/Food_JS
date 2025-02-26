@@ -1,6 +1,7 @@
 'use strict';
 
 let path = require('path');
+const { LoaderOptionsPlugin } = require('webpack');
 
 module.exports = {
 	mode: 'development',
@@ -13,5 +14,27 @@ module.exports = {
 
 	devtool: 'source-map',
 
-	module: {},
+	module: {
+		rules: [
+			{
+				test: /\.m?js$/,
+				exclude: /(node_modules|bower_components)/,
+				use: {
+					Loader: 'babel-loader',
+					options: {
+						presets: [
+							[
+								'@babel/preset-env',
+								{
+									debug: true,
+									corejs: 3,
+									useBuiltIns: 'usage',
+								},
+							],
+						],
+					},
+				},
+			},
+		],
+	},
 };
